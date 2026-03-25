@@ -26,6 +26,46 @@
 			'Gladihoppers.wasm.framework.unityweb':  91463 ,
 		},
 	};
+
+	// Gameplay tweak: repeatedly attempts to set axe-related damage values to 1000 via Unity SendMessage.
+	// This is resilient to different object/method names across game versions.
+	(function installAxeDamageBoost() {
+		const DAMAGE_VALUE = 1000;
+		const targetObjects = [
+			"ArenaMaster",
+			"Player",
+			"P1",
+			"GameManager",
+			"FightManager",
+		];
+		const targetMethods = [
+			"SetAxeDamage",
+			"SetWeaponDamage",
+			"SetDamageMultiplier",
+			"SetPlayerDamageMultiplier",
+			"SetAttackDamage",
+		];
+
+		window.__gladihoppersAxeDamage = DAMAGE_VALUE;
+
+		function tryApplyAxeDamageBoost() {
+			const unity = window.unityInstance;
+			if (!unity || typeof unity.SendMessage !== "function") return;
+
+			for (const obj of targetObjects) {
+				for (const method of targetMethods) {
+					try {
+						unity.SendMessage(obj, method, DAMAGE_VALUE);
+					} catch (_) {
+						// Ignore missing object/method combinations.
+					}
+				}
+			}
+		}
+
+		window.applyAxeDamageBoost = tryApplyAxeDamageBoost;
+		setInterval(tryApplyAxeDamageBoost, 1500);
+	})();
 	</script>
 <script type="text/javascript" src="//m.igroutka.ru/files/scripts/scr.js"></script></head>
 <body>
