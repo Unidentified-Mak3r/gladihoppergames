@@ -26,11 +26,22 @@ It is essentially a **static game-hosting website**:
 - `assets/images/` — site UI imagery/icons.
 - `file/<game-name>/` — self-contained game distributions and assets.
 
-## Run locally
+## Run locally from GitHub
 
-Because this is static content, you can run it with any local web server.
+Because this is a static site, the easiest flow is to clone it from GitHub and serve it with a lightweight local web server.
 
-### Option A: Python
+### 1) Clone the repository from GitHub
+
+```bash
+git clone https://github.com/<your-org-or-username>/gladihoppergames.git
+cd gladihoppergames
+```
+
+> If you already have the repo, just run `git pull` to get the latest changes.
+
+### 2) Start a local server
+
+#### Option A: Python (quickest)
 
 ```bash
 python3 -m http.server 8080
@@ -38,9 +49,16 @@ python3 -m http.server 8080
 
 Then open: `http://localhost:8080`
 
-### Option B: VS Code Live Server
+#### Option B: VS Code Live Server
 
-Open the repo and run “Open with Live Server” on `index.html`.
+Open the cloned repo in VS Code, then run **Open with Live Server** on `index.html`.
+
+### 3) (Optional) Keep your local copy synced with GitHub
+
+```bash
+git checkout main
+git pull origin main
+```
 
 ## How pages are wired
 
